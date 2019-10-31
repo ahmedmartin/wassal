@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "88108446658",
+    "firebase_url": "https://wassal-ba583.firebaseio.com",
+    "project_id": "wassal-ba583",
+    "storage_bucket": "wassal-ba583.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88108446658:android:bcee49bae4a93514c85c5b",
+        "android_client_info": {
+          "package_name": "com.ahmed.martin.wassal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88108446658-7u12h7du2s2ncpk5sftev88edeet3h02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmed.martin.wassal",
+            "certificate_hash": "fa3241c84857072a64945cc34ccddc24354af0ff"
+          }
+        },
+        {
+          "client_id": "88108446658-tc2nebiu3fnthcl3eesgoaboqdtq32tq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMvtf6dfDtBGhy97_zG-kzOsBgewl3TCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88108446658-tc2nebiu3fnthcl3eesgoaboqdtq32tq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
