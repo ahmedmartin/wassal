@@ -5,7 +5,12 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#ffffff</item>
+    </style>
+
+    <style name="nav_Text">
+        <item name="android:textSize">18sp</item>
+        <!-- <item name="android:textColor">#5B432B</item> -->
     </style>
 
 </resources>

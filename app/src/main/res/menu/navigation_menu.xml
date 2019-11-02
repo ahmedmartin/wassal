@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/person_info"
+         android:title="Personal Information"
+        android:icon="@drawable/person_info"
+        android:onClick="person_info"/>
+
+    <item android:id="@+id/about_us"
+        android:title="About US"
+        android:icon="@drawable/about_us"
+        android:onClick="about_us"/>
+
+    <item android:id="@+id/log_out"
+        android:title="Log Out"
+        android:icon="@drawable/log_out"
+        android:onClick="log_out"/>
+
+
+</menu>
