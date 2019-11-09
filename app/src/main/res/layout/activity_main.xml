@@ -41,13 +41,17 @@
                         android:textSize="36sp"
                         android:textStyle="bold|italic" />
 
-                    <EditText
-                        android:id="@+id/editText"
+                    <TextView
+                        android:id="@+id/s_adderess"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/bottum_porder"
                         android:ems="10"
                         android:hint="address.."
-                        android:inputType="textPersonName"
+                        android:inputType="textMultiLine"
+                        android:onClick="get_sender_address"
                         android:paddingLeft="10dp"
                         android:paddingRight="5dp"
                         android:textColor="@android:color/holo_green_dark"
@@ -56,9 +60,10 @@
                         android:textSize="22dp" />
 
                     <EditText
-                        android:id="@+id/editText2"
+                        android:id="@+id/s_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:hint="phone.."
                         android:inputType="phone"
@@ -91,9 +96,11 @@
                         android:textStyle="bold|italic" />
 
                     <EditText
-                        android:id="@+id/editText3"
+                        android:id="@+id/r_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:hint="name.."
                         android:inputType="textPersonName"
@@ -104,13 +111,16 @@
                         android:textColorHint="@android:color/holo_green_dark"
                         android:textSize="22dp" />
 
-                    <EditText
-                        android:id="@+id/editText5"
+                    <TextView
+                        android:id="@+id/r_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/bottum_porder"
                         android:ems="10"
                         android:hint="address.."
-                        android:inputType="textPersonName"
+                        android:inputType="textMultiLine"
+                        android:onClick="get_reciever_address"
                         android:paddingLeft="10dp"
                         android:paddingRight="5dp"
                         android:textColor="@android:color/holo_green_dark"
@@ -119,9 +129,10 @@
                         android:textSize="22dp" />
 
                     <EditText
-                        android:id="@+id/editText4"
+                        android:id="@+id/r_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:hint="phone.."
                         android:inputType="phone"
@@ -146,16 +157,27 @@
                         android:id="@+id/textView6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
                         android:gravity="center"
                         android:text="order details"
                         android:textColor="#ffffff"
                         android:textSize="36sp"
                         android:textStyle="bold|italic" />
 
+                    <ImageView
+                        android:id="@+id/order_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:onClick="take_photo_for_order"
+                        app:srcCompat="@android:drawable/ic_menu_camera" />
+
                     <EditText
-                        android:id="@+id/editText7"
+                        android:id="@+id/description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:gravity="start|top"
                         android:hint="description.."
@@ -165,9 +187,10 @@
                         android:textSize="22sp" />
 
                     <EditText
-                        android:id="@+id/editText10"
+                        android:id="@+id/weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:hint="weight"
                         android:inputType="numberDecimal"
@@ -176,9 +199,10 @@
                         android:textSize="22sp" />
 
                     <EditText
-                        android:id="@+id/editText8"
+                        android:id="@+id/provide_pay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:hint="provider pays"
                         android:inputType="numberDecimal"
@@ -187,9 +211,10 @@
                         android:textSize="22sp" />
 
                     <EditText
-                        android:id="@+id/editText9"
+                        android:id="@+id/delivery_estimate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:ems="10"
                         android:hint="delivery estimate"
                         android:inputType="numberDecimal"
@@ -197,21 +222,26 @@
                         android:textColorHint="@android:color/holo_green_dark"
                         android:textSize="22sp" />
 
-                    <EditText
-                        android:id="@+id/editText11"
+                    <TextView
+                        android:id="@+id/date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/bottum_porder"
                         android:ems="10"
                         android:hint="date.."
-                        android:inputType="date"
+                        android:inputType="textMultiLine"
                         android:textColor="@android:color/holo_green_dark"
                         android:textColorHint="@android:color/holo_green_dark"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:onClick="get_date"/>
 
                     <Spinner
                         android:id="@+id/delivery_type"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:popupBackground="#cc000000" />
 
                 </LinearLayout>
 
@@ -223,6 +253,7 @@
                     android:layout_marginTop="40dp"
                     android:layout_marginBottom="50dp"
                     android:background="#80000000"
+                    android:onClick="submit"
                     android:text="submit"
                     android:textColor="@android:color/background_light"
                     android:textSize="36sp"
@@ -233,15 +264,17 @@
     </RelativeLayout>
 
 
+
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#80ffffff"
+        android:background="#99ffffff"
         android:theme="@style/nav_Text"
         app:headerLayout="@layout/nav_layout"
-        app:itemTextColor="@android:color/holo_green_dark"
+        app:itemTextColor="#80000000"
         app:menu="@menu/navigation_menu" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
