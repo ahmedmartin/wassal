@@ -11,6 +11,15 @@
         android:layout_height="match_parent"
         android:background="@android:color/black">
 
+       <!--
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="#000000"/>
+            -->
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,63 +32,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/sign_in_layout"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Sender Info"
-                        android:textColor="@android:color/background_light"
-                        android:textSize="36sp"
-                        android:textStyle="bold|italic" />
-
-                    <TextView
-                        android:id="@+id/s_adderess"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/bottum_porder"
-                        android:ems="10"
-                        android:hint="address.."
-                        android:inputType="textMultiLine"
-                        android:onClick="get_sender_address"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:textColor="@android:color/holo_green_dark"
-                        android:textColorHighlight="@android:color/background_light"
-                        android:textColorHint="@android:color/holo_green_dark"
-                        android:textSize="22dp" />
-
-                    <EditText
-                        android:id="@+id/s_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:ems="10"
-                        android:hint="phone.."
-                        android:inputType="phone"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:textColor="@android:color/holo_green_dark"
-                        android:textColorHighlight="@android:color/background_light"
-                        android:textColorHint="@android:color/holo_green_dark"
-                        android:textSize="22dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/sign_in_layout"
                     android:orientation="vertical"

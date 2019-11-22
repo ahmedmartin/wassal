@@ -94,8 +94,11 @@ public class sign_in extends AppCompatActivity {
                     public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            order_data order_details = new order_data();
+                            Intent main = new Intent(sign_in.this,MainActivity.class);
+                            main.putExtra("order", order_details);
+                            startActivity(main);
                             finish();
-                            startActivity(new Intent(sign_in.this,MainActivity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(sign_in.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -112,8 +115,11 @@ public class sign_in extends AppCompatActivity {
         FirebaseUser currentUser = mauth.getCurrentUser();
 
         if(currentUser!=null){
+            order_data order_details = new order_data();
+            Intent main = new Intent(sign_in.this,MainActivity.class);
+            main.putExtra("order", order_details);
+            startActivity(main);
             finish();
-            startActivity(new Intent(sign_in.this,MainActivity.class));
         }
 
 
@@ -158,10 +164,14 @@ public class sign_in extends AppCompatActivity {
                     @Override
                     public void onComplete(Task<AuthResult> task) {
                         // if signed in start main activity
-                        if (task.isSuccessful())
-                           startActivity(new Intent(sign_in.this,MainActivity.class));
-                        // if not show error message
-                         else
+                        if (task.isSuccessful()) {
+                            order_data order_details = new order_data();
+                            Intent main = new Intent(sign_in.this,MainActivity.class);
+                            main.putExtra("order", order_details);
+                            startActivity(main);
+                            finish();
+                            // if not show error message
+                        }else
                             Toast.makeText(sign_in.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
