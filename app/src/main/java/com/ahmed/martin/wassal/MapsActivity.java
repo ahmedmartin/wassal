@@ -42,7 +42,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private  order_data order_details;
-    private String type,address;
+    private user_data user_details;
+    private String type,address, fromedit;
+    private Boolean whereFrom;
     private MarkerOptions marker;
     private Double latitude , longitude;
     private boolean select_address;
@@ -61,8 +63,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         order_details=(order_data) getIntent().getSerializableExtra("order");
+        user_details =(user_data) getIntent().getSerializableExtra("user");
         type = getIntent().getStringExtra("type");
-
+        whereFrom = getIntent().getBooleanExtra("whereFrom", false);
+        fromedit = getIntent().getStringExtra("edit");
 
 /**
  * Initialize Places. For simplicity, the API key is hard-coded. In a production
@@ -223,17 +227,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void select_address(View view) {
-        if(select_address) {
+        if(!whereFrom) {
+            if (select_address) {
                 order_details.setR_address(address);
                 order_details.setR_lat(latitude);
                 order_details.setR_long(longitude);
-            Intent main = new Intent(MapsActivity.this, MainActivity.class);
-            main.putExtra("order",order_details);
-            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            finish();
-            startActivity(main);
-        }else{
-            Toast.makeText(MapsActivity.this,"sorry must search or select location to continue",Toast.LENGTH_LONG).show();
+                Intent main = new Intent(MapsActivity.this, MainActivity.class);
+                main.putExtra("order", order_details);
+                main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(main);
+            } else {
+                Toast.makeText(MapsActivity.this, "sorry must search or select location to continue", Toast.LENGTH_LONG).show();
+            }
+        }else {
+            if (select_address) {
+                user_details.setAddress(address);
+                user_details.setAddress_lat(latitude);
+                user_details.setAddress_long(longitude);
+                if(fromedit.equals("no")) {
+                    Intent signup = new Intent(MapsActivity.this, sign_up.class);
+                    signup.putExtra("user", user_details);
+                    signup.putExtra("finish", true);
+                    signup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    finish();
+                    startActivity(signup);
+                }else{
+                    Intent editui = new Intent(MapsActivity.this, EditUserInfoActivity.class);
+                    editui.putExtra("user", user_details);
+                    editui.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    finish();
+                    startActivity(editui);
+                }
+            } else {
+                Toast.makeText(MapsActivity.this, "sorry must search or select location to continue", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

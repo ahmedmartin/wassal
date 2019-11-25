@@ -20,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".submit"></activity>
+        <activity android:name=".EditUserInfoActivity"></activity>
+        <activity android:name=".UserInfoActivity" />
+        <activity android:name=".submit" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

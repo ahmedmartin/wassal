@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -63,7 +64,7 @@
                         android:paddingRight="5dp"
                         android:textColor="@android:color/holo_green_dark"
                         android:textColorHighlight="#ffffff"
-                        android:textColorHint="@android:color/holo_green_dark"
+                        android:textColorHint="@android:color/darker_gray"
                         android:textSize="22dp" />
 
                     <TextView
@@ -94,7 +95,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="5dp"
                         android:textColor="@android:color/holo_green_dark"
-                        android:textColorHint="@android:color/holo_green_dark"
+                        android:textColorHint="@android:color/darker_gray"
                         android:textSize="22dp" />
                 </LinearLayout>
 
@@ -138,7 +139,7 @@
                         android:hint="description.."
                         android:inputType="textMultiLine"
                         android:textColor="@android:color/holo_green_dark"
-                        android:textColorHint="@android:color/holo_green_dark"
+                        android:textColorHint="@android:color/darker_gray"
                         android:textSize="22sp" />
 
                     <EditText
@@ -150,7 +151,7 @@
                         android:hint="weight"
                         android:inputType="numberDecimal"
                         android:textColor="@android:color/holo_green_dark"
-                        android:textColorHint="@android:color/holo_green_dark"
+                        android:textColorHint="@android:color/darker_gray"
                         android:textSize="22sp" />
 
                     <EditText
@@ -162,7 +163,7 @@
                         android:hint="provider pays"
                         android:inputType="numberDecimal"
                         android:textColor="@android:color/holo_green_dark"
-                        android:textColorHint="@android:color/holo_green_dark"
+                        android:textColorHint="@android:color/darker_gray"
                         android:textSize="22sp" />
 
                     <EditText
@@ -174,7 +175,7 @@
                         android:hint="delivery estimate"
                         android:inputType="numberDecimal"
                         android:textColor="@android:color/holo_green_dark"
-                        android:textColorHint="@android:color/holo_green_dark"
+                        android:textColorHint="@android:color/darker_gray"
                         android:textSize="22sp" />
 
                     <TextView
@@ -232,4 +233,4 @@
         app:itemTextColor="#80000000"
         app:menu="@menu/navigation_menu" />
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

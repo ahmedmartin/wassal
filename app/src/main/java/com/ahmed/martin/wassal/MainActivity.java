@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -21,6 +23,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,9 +34,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,11 +55,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
    private TextView r_name,r_phone,r_address,description,weight,provide_pay,delivery_estimate,date;
    private Spinner delivery_type_spinner;
    private ImageView order_photo;
+   private DrawerLayout drawer;
 
    private order_data order_details ;
 
@@ -80,7 +86,10 @@ public class MainActivity extends AppCompatActivity {
         date = findViewById(R.id.date);
         delivery_type_spinner = findViewById(R.id.delivery_type);
         order_photo = findViewById(R.id.order_photo);
+        drawer = findViewById(R.id.drawer_layout);
 
+        NavigationView navigationView = findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // delivey type spinner
         final String [] types = {"Motor cycle","Bicycle","Car","subway","train"};
@@ -106,6 +115,31 @@ public class MainActivity extends AppCompatActivity {
         // get data from class order to show it
         get_data_from_class_order();
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.person_info:
+                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+                break;
+            case R.id.about_us:
+                break;
+            case R.id.log_out:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, sign_in.class));
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START))
+            drawer.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
     }
 
     public void take_photo_for_order(View view) {
@@ -324,15 +358,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void get_data_from_class_order(){
-        date.setText(order_details.getDate());
-        delivery_estimate.setText(order_details.getDelivery_estimate());
-        description.setText(order_details.getDescription());
-        provide_pay.setText(order_details.getProvide_pay());
-        weight.setText(order_details.getWeight());
-        if(get_reciever_data) {
-            r_address.setText(order_details.getR_address());
-            r_name.setText(order_details.getR_name());
-            r_phone.setText(order_details.getR_phone());
+        if(order_details != null) {
+            date.setText(order_details.getDate());
+            delivery_estimate.setText(order_details.getDelivery_estimate());
+            description.setText(order_details.getDescription());
+            provide_pay.setText(order_details.getProvide_pay());
+            weight.setText(order_details.getWeight());
+            if (get_reciever_data) {
+                r_address.setText(order_details.getR_address());
+                r_name.setText(order_details.getR_name());
+                r_phone.setText(order_details.getR_phone());
+            }
         }
 
     }
