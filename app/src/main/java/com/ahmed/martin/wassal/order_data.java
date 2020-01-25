@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class order_data implements Serializable {
 
     private String s_uid,r_name,r_phone,r_address,description,weight,provide_pay,delivery_estimate,date ;
-    private Double r_long,r_lat;
+    private Double r_long,r_lat, s_lat, s_long;
 
 
 
@@ -43,9 +43,21 @@ public class order_data implements Serializable {
         return date;
     }
 
+    public Double getS_lat() {
+        return s_lat;
+    }
 
+    public void setS_lat(Double s_lat) {
+        this.s_lat = s_lat;
+    }
 
+    public Double getS_long() {
+        return s_long;
+    }
 
+    public void setS_long(Double s_long) {
+        this.s_long = s_long;
+    }
 
     public void setR_name(String r_name) {
         this.r_name = r_name;

@@ -14,13 +14,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/sign_in_layout"
         android:ems="10"
+        android:gravity="left"
         android:hint="First name"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="left"
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:textColor="@android:color/holo_green_dark"
@@ -29,7 +27,9 @@
         android:textColorLink="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:background="@drawable/sign_in_layout"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/lname"
@@ -38,13 +38,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/sign_in_layout"
         android:ems="10"
+        android:gravity="left"
         android:hint="Last name"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fname"
-        android:gravity="left"
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:textColor="@android:color/holo_green_dark"
@@ -53,7 +51,9 @@
         android:textColorLink="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:background="@drawable/sign_in_layout"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fname" />
 
     <EditText
         android:id="@+id/pnumber"
@@ -62,13 +62,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/sign_in_layout"
         android:ems="10"
+        android:gravity="left"
         android:hint="01022222222"
         android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lname"
-        android:gravity="left"
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:textColor="@android:color/holo_green_dark"
@@ -77,7 +75,9 @@
         android:textColorLink="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:background="@drawable/sign_in_layout"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lname" />
 
     <EditText
         android:id="@+id/pass"
@@ -86,13 +86,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/sign_in_layout"
         android:ems="10"
+        android:gravity="left"
         android:hint="password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pnumber"
-        android:gravity="left"
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:textColor="@android:color/holo_green_dark"
@@ -101,7 +99,9 @@
         android:textColorLink="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:background="@drawable/sign_in_layout"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pnumber" />
 
     <EditText
         android:id="@+id/address"
@@ -110,14 +110,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/sign_in_layout"
         android:ems="10"
+        android:gravity="left"
         android:hint="Address"
         android:inputType="textPersonName"
         android:onClick="get_user_address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass"
-        android:gravity="left"
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:textColor="@android:color/holo_green_dark"
@@ -126,7 +124,9 @@
         android:textColorLink="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:background="@drawable/sign_in_layout"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pass" />
 
     <Button
         android:id="@+id/doneBtn"
@@ -135,13 +135,44 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="#8000"
         android:text="Done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:textColor="@android:color/background_light"
         android:textSize="36sp"
         android:textStyle="bold|italic"
-        android:background="#8000"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/ssnNum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="SSN"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        android:textColorHint="@android:color/darker_gray"
+        android:textColorLink="@android:color/background_light" />
+
+    <ImageView
+        android:id="@+id/ssnImg"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/sign_in_layout"
+        android:onClick="upload_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ssnNum"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

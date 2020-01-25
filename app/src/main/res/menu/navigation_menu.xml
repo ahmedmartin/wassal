@@ -8,6 +8,11 @@
         android:icon="@drawable/person_info"
         />
 
+    <item android:id="@+id/orders"
+        android:title="Orders"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        />
+
     <item android:id="@+id/about_us"
         android:title="About US"
         android:icon="@drawable/about_us"

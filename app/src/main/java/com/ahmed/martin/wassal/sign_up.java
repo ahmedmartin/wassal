@@ -8,9 +8,11 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +44,7 @@ public class sign_up extends AppCompatActivity {
     private Button creatUser;
 
     private String userId;
-    private Boolean get_User_Data;
+    private boolean get_User_Data, comefrom;
     private user_data user;
     private Uri ur;
 
@@ -65,6 +67,8 @@ public class sign_up extends AppCompatActivity {
 
         creatUser = findViewById(R.id.creatBtn);
 
+
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference().child("person");
@@ -72,22 +76,30 @@ public class sign_up extends AppCompatActivity {
         get_User_Data = getIntent().getBooleanExtra("finish",false);
         user = (user_data) getIntent().getSerializableExtra("user");
 
+        String fname = firstName.getText().toString();
+        String lname = lastName.getText().toString();
+        String pnumber = phoneNumber.getText().toString();
+        String ssnnumber = ssnNumber.getText().toString();
+        String email = Email.getText().toString();
+        String password = Password.getText().toString();
+
         creatUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.createUserWithEmailAndPassword(Email.getText().toString(), Password.getText().toString())
+                if(check()) {
+                    mAuth.createUserWithEmailAndPassword(Email.getText().toString(), Password.getText().toString())
                         .addOnCompleteListener(sign_up.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     userId = mAuth.getCurrentUser().getUid();
                                     mDatabase.child("person").child(userId).setValue(user);
                                     UploadTask up = mStorage.child(userId).putFile(Uri.parse(ur.toString()));
                                     up.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(sign_up.this, "Auth succeed" , Toast.LENGTH_SHORT).show();
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(sign_up.this, "Auth succeed", Toast.LENGTH_SHORT).show();
                                                 Intent main = new Intent(sign_up.this, MainActivity.class);
                                                 startActivity(main);
                                                 finish();
@@ -95,13 +107,15 @@ public class sign_up extends AppCompatActivity {
                                         }
                                     });
 
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
+                }
             }
         });
+
         get_data_from_class_user();
 
     }
@@ -128,6 +142,7 @@ public class sign_up extends AppCompatActivity {
         user.setLast_name(lastName.getText().toString().trim());
         user.setPhoneNumber(phoneNumber.getText().toString().trim());
         user.setSsnNumber(ssnNumber.getText().toString().trim());
+        user.setEmail(Email.getText().toString().trim());
     }
 
     public void get_data_from_class_user(){
@@ -136,6 +151,8 @@ public class sign_up extends AppCompatActivity {
             lastName.setText(user.getLast_name());
             phoneNumber.setText(user.getPhoneNumber());
             ssnNumber.setText(user.getSsnNumber());
+            Address.setText(user.getAddress());
+            Email.setText(user.getEmail());
         }
     }
     public void upload_image(View view){
@@ -163,6 +180,43 @@ public class sign_up extends AppCompatActivity {
             inte.setType("image/*");
             startActivityForResult(inte,2);
         }
+    }
+
+    private Boolean check(){
+        if(TextUtils.isEmpty(firstName.getText().toString())){
+            firstName.setError("can't be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(lastName.getText().toString())){
+            lastName.setError("can't be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(phoneNumber.getText().toString())){
+            phoneNumber.setError("can't be empty");
+            return false;
+        }
+        if(phoneNumber.getText().toString().length() != 11){
+            phoneNumber.setError("Enter right number");
+            return false;
+        }
+        if(TextUtils.isEmpty(ssnNumber.getText().toString())){
+            ssnNumber.setError("can't be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(Email.getText().toString())){
+            Email.setError("can't be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(Password.getText().toString())){
+            Password.setError("can't be empty");
+            return false;
+        }
+        if(ur==null){
+            ssnImage.setBackgroundColor(Color.RED);
+            Toast.makeText(this, "select image", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
 }

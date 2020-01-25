@@ -18,11 +18,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,12 +75,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
    private boolean get_reciever_data;
    private Uri ur;
 
+   private FirebaseAuth mAuth;
+   private String userId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
         r_name = findViewById(R.id.r_name);
         r_phone = findViewById(R.id.r_phone);
         r_address = findViewById(R.id.r_address);
@@ -92,8 +102,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         // delivey type spinner
-        final String [] types = {"Motor cycle","Bicycle","Car","subway","train"};
-        delivery_type_adapter = new ArrayAdapter<>(this,R.layout.spinner_item,types);
+        final String[] types = {"Motor cycle", "Bicycle", "Car", "subway", "train"};
+        delivery_type_adapter = new ArrayAdapter<>(this, R.layout.spinner_item, types);
         delivery_type_adapter.setDropDownViewResource(R.layout.spinner_item);
         delivery_type_spinner.setAdapter(delivery_type_adapter);
         delivery_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -102,26 +112,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 delivery_type_string = types[i];
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
 
 
         // get order class from another activity
-        order_details=(order_data) getIntent().getSerializableExtra("order");
+        order_details = (order_data) getIntent().getSerializableExtra("order");
         // used for submit activity for ask user do you need continue with same order data
-        get_reciever_data = getIntent().getBooleanExtra("get_receiver_data",true);
+        get_reciever_data = getIntent().getBooleanExtra("get_receiver_data", true);
 
         // get data from class order to show it
         get_data_from_class_order();
+        get_user_data();
 
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.person_info:
                 startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+                break;
+            case R.id.orders:
+                startActivity(new Intent(MainActivity.this, OrderActivity.class));
                 break;
             case R.id.about_us:
                 break;
@@ -140,6 +157,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
+    }
+
+    protected void onStop() {
+        super.onStop();
+        if(d_ref!=null)
+            d_ref.removeEventListener(listener);
     }
 
     public void take_photo_for_order(View view) {
@@ -230,17 +253,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         d_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-             Double s_long = Double.parseDouble(dataSnapshot.child("address_long").getValue().toString());
-             Double s_lat = Double.parseDouble(dataSnapshot.child("address_lat").getValue().toString());
-                try {
-                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-                    List<Address> addresses = geocoder.getFromLocation(s_lat, s_long, 1);
-                    if (addresses != null && addresses.size() > 0) {
-                        city = addresses.get(0).getAdminArea();
-                        upload_data();
+                if(dataSnapshot.exists()) {
+                    Double s_long = Double.parseDouble(dataSnapshot.child("address_long").getValue().toString());
+                    Double s_lat = Double.parseDouble(dataSnapshot.child("address_lat").getValue().toString());
+                    try {
+                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                        List<Address> addresses = geocoder.getFromLocation(s_lat, s_long, 1);
+                        if (addresses != null && addresses.size() > 0) {
+                            city = addresses.get(0).getAdminArea();
+                            upload_data();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -251,6 +276,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         return city;
     }
+
+    private DatabaseReference savedOrders;
 
     private void upload_data(){
 
@@ -263,6 +290,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             d_ref = FirebaseDatabase.getInstance().getReference().child("order").child(date.getText().toString()).
                     //child(delivery_type_string).push();
                             child(city).child(delivery_type_string).push();
+            savedOrders = FirebaseDatabase.getInstance().getReference().child("person").child(userId ).child("saved")
+                    .child(date.getText().toString()).child(delivery_type_string).child(d_ref.getKey());
             first_click = false;
         }
 
@@ -276,15 +305,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onComplete( Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
-                    order_details.setS_uid(FirebaseAuth.getInstance().getUid().toString());
-                    order_details.setDate("");
+                    order_details.setS_uid(FirebaseAuth.getInstance().getUid());
+                    order_details.setDate(date.getText().toString());
+                    order_details.setS_lat(user.getAddress_lat());
+                    order_details.setS_long(user.getAddress_long());
                     d_ref.child("r_long").setValue(order_details.getR_long());
                     d_ref.child("r_lat").setValue(order_details.getR_lat());
+                    Log.d("kkk", user.getAddress_lat()+ " " + user.getAddress_long());
                     // check data was uploaded or not
                     d_ref.setValue(order_details).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete( Task<Void> task) {
                             if(task.isSuccessful()){
+                                d_ref.child("s_uid").setValue(userId);
+                                savedOrders.setValue(order_details);
                                 // move to submit activity
                                 Intent submit = new Intent(MainActivity.this, submit.class);
                                 submit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -305,6 +339,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private user_data user;
+    private DatabaseReference mDatabase;
+    private ValueEventListener listener;
+    public void get_user_data(){
+        user = new user_data();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("person").child(userId);
+        listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren())
+                    user = data.getValue(user_data.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDatabase.addValueEventListener(listener);
+    }
 
 
 

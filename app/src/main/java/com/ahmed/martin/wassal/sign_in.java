@@ -93,11 +93,9 @@ public class sign_in extends AppCompatActivity {
                     @Override
                     public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            order_data order_details = new order_data();
-                            Intent main = new Intent(sign_in.this,MainActivity.class);
-                            main.putExtra("order", order_details);
-                            startActivity(main);
+                            Intent add_info = new Intent(sign_in.this,EditUserInfoActivity.class);
+                            add_info.putExtra("come_from_google_sign_in",true);
+                            startActivity(add_info);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.

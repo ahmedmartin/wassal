@@ -1,10 +1,15 @@
 package com.ahmed.martin.wassal;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 
 public class user_data implements Serializable {
     private String first_name, last_name, address, phoneNumber, ssnNumber;
     private Double address_lat, address_long;
+
+    @Exclude
+    private String email;
 
     public user_data() { }
 
@@ -19,6 +24,10 @@ public class user_data implements Serializable {
         this.address_long = address_long;
     }
 
+    @Exclude
+    public String getEmail(){return email;}
+    @Exclude
+    public void setEmail(String email){ this.email = email;}
 
 
     public String getFirst_name() {
