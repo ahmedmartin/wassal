@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // get data from class order to show it
         get_data_from_class_order();
-        get_user_data();
+
 
     }
 
@@ -137,8 +137,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.person_info:
                 startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
                 break;
-            case R.id.orders:
+            case R.id.savedOrders:
                 startActivity(new Intent(MainActivity.this, OrderActivity.class));
+                break;
+            case R.id.pendingOrders:
+                startActivity(new Intent(MainActivity.this, PendingActivity.class));
                 break;
             case R.id.about_us:
                 break;
@@ -159,11 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
     }
 
-    protected void onStop() {
-        super.onStop();
-        if(d_ref!=null)
-            d_ref.removeEventListener(listener);
-    }
 
     public void take_photo_for_order(View view) {
         // request permission for get photo
@@ -245,17 +243,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // mt5odsh el data bta3t el city ya 3mr 5las ana 7let el m4kla
     // get user city by it's address lat , long
     private String city;
+    Double s_long;
+    Double s_lat;
+    DatabaseReference city_ref;
+    ValueEventListener d_lisListener;
     private String get_user_city() {
 
-        String uid = FirebaseAuth.getInstance().getUid().toString();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference d_ref = FirebaseDatabase.getInstance().getReference().child("person").child(uid);
-        d_ref.addValueEventListener(new ValueEventListener() {
+        city_ref = FirebaseDatabase.getInstance().getReference().child("person").child(uid);
+        d_lisListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    Double s_long = Double.parseDouble(dataSnapshot.child("address_long").getValue().toString());
-                    Double s_lat = Double.parseDouble(dataSnapshot.child("address_lat").getValue().toString());
+                    s_long = Double.parseDouble(dataSnapshot.child("address_long").getValue().toString());
+                    s_lat = Double.parseDouble(dataSnapshot.child("address_lat").getValue().toString());
+                    order_details.setS_long(s_long);
+                    order_details.setS_lat(s_lat);
                     try {
                         Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                         List<Address> addresses = geocoder.getFromLocation(s_lat, s_long, 1);
@@ -267,13 +271,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         e.printStackTrace();
                     }
                 }
+                city_ref.removeEventListener(d_lisListener);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+        city_ref.addValueEventListener(d_lisListener);
         return city;
     }
 
@@ -291,13 +297,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //child(delivery_type_string).push();
                             child(city).child(delivery_type_string).push();
             savedOrders = FirebaseDatabase.getInstance().getReference().child("person").child(userId ).child("saved")
-                    .child(date.getText().toString()).child(delivery_type_string).child(d_ref.getKey());
+                    .child(date.getText().toString()).child(city).child(delivery_type_string).child(d_ref.getKey());
             first_click = false;
         }
 
         // upload photo by post key
-        StorageReference pRef = FirebaseStorage.getInstance().getReference().child("order").child(date.getText().toString()).
-                child(delivery_type_string).child(d_ref.getKey());
+        StorageReference pRef = FirebaseStorage.getInstance().getReference().child("order").child(date.getText().toString())
+                .child(city).child(delivery_type_string).child(d_ref.getKey());
         // child(get_user_city()).child(delivery_type_string).child(d_ref.getKey());
         UploadTask up = pRef.putFile(Uri.parse(ur.toString()));
         // check photo was uploaded or not
@@ -305,29 +311,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onComplete( Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
-                    order_details.setS_uid(FirebaseAuth.getInstance().getUid());
+//                    order_details.setS_uid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     order_details.setDate(date.getText().toString());
-                    order_details.setS_lat(user.getAddress_lat());
-                    order_details.setS_long(user.getAddress_long());
                     d_ref.child("r_long").setValue(order_details.getR_long());
                     d_ref.child("r_lat").setValue(order_details.getR_lat());
-                    Log.d("kkk", user.getAddress_lat()+ " " + user.getAddress_long());
+                    d_ref.child("s_long").setValue(order_details.getS_long());
+                    d_ref.child("s_lat").setValue(order_details.getS_lat());
+                    Log.d("kwq",  order_details.getS_uid());
                     // check data was uploaded or not
                     d_ref.setValue(order_details).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete( Task<Void> task) {
                             if(task.isSuccessful()){
-                                d_ref.child("s_uid").setValue(userId);
                                 savedOrders.setValue(order_details);
-                                // move to submit activity
+                                //move to submit activity
                                 Intent submit = new Intent(MainActivity.this, submit.class);
                                 submit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 //"putextra order " send order class with all data
                                 // because in submit activity will use it for ask user
                                 // do you need continue with same order details or not
                                 submit.putExtra("order",order_details);
-                                finish();
                                 startActivity(submit);
+                                finish();
                             }else
                                 Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -338,30 +343,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
-    private user_data user;
-    private DatabaseReference mDatabase;
-    private ValueEventListener listener;
-    public void get_user_data(){
-        user = new user_data();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("person").child(userId);
-        listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren())
-                    user = data.getValue(user_data.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        mDatabase.addValueEventListener(listener);
-    }
-
-
 
     public void get_reciever_address(View view) {
         put_data_in_class_order();
@@ -402,6 +383,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void put_data_in_class_order (){
+        order_details.setS_uid(FirebaseAuth.getInstance().getCurrentUser().getUid());
         order_details.setDate(date.getText().toString());
         order_details.setDelivery_estimate(delivery_estimate.getText().toString());
         order_details.setDescription(description.getText().toString());

@@ -47,6 +47,10 @@ public class order_data implements Serializable {
         return s_lat;
     }
 
+    public String getS_uid() {
+        return s_uid;
+    }
+
     public void setS_lat(Double s_lat) {
         this.s_lat = s_lat;
     }

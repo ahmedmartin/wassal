@@ -8,9 +8,14 @@
         android:icon="@drawable/person_info"
         />
 
-    <item android:id="@+id/orders"
-        android:title="Orders"
+    <item android:id="@+id/savedOrders"
+        android:title="Saved Orders"
         android:icon="@drawable/ic_library_books_black_24dp"
+        />
+
+    <item android:id="@+id/pendingOrders"
+        android:title="Pending Orders"
+        android:icon="@drawable/ic_more_horiz_black_24dp"
         />
 
     <item android:id="@+id/about_us"

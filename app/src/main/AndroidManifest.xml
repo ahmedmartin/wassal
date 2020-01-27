@@ -22,7 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrderActivity"></activity>
+        <activity android:name=".PendingActivity"></activity>
+        <activity android:name=".SavedOrderDetailsActivity" />
+        <activity android:name=".OrderActivity" />
         <activity android:name=".EditUserInfoActivity" />
         <activity android:name=".UserInfoActivity" />
         <activity android:name=".submit" />
